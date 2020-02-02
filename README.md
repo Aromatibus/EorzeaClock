@@ -21,8 +21,7 @@ ngld/OverlayPlugin https://github.com/ngld/OverlayPlugin で動作を確認し�
 PCに詳しい方は "index.html" をPCに保存して改造できます。
 楽しんでいただければ幸いです。
 
-Thanks to Square Enix for giving us a wonderful adventure world.
-And thanks to those who develop ACT, plugins and other tools.
+
 This is an overlay for Advanced Combat Tracker.
 Displays the local time and Eorzea time on the screen.
 ngld/OverlayPlugin https://github.com/ngld/OverlayPlugin has confirmed the operation.
