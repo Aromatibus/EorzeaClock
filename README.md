@@ -6,9 +6,8 @@ Thanks to Square Enix for giving us a wonderful adventure world.
 And thanks to those who develop ACT, plugins and other tools.
 -------------------------------------------------------------------------------------
 
-
-![表示例](https://user-images.githubusercontent.com/54123288/73608667-25bcc680-4609-11ea-9f8e-cd2c45ea59db.png)
-
+![表示例1](https://user-images.githubusercontent.com/54123288/73611571-6c6ce980-4626-11ea-929c-c1faa6f69d89.png)
+![表示例2](https://user-images.githubusercontent.com/54123288/73611573-70007080-4626-11ea-9d5d-7e891ed24336.png)
 
 これは、Advanced Combat Tracker用オーバーレイです。
 画面にローカル時間とエオルゼア時間を表示します。
