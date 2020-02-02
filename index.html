@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang='ja'>
+<head>
+	<title>Eorzea Clock</title>
+
+	<script language='JavaScript'>
+	<meta charset='utf-8'>
+
+	<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js'></script>
+	<link href='https://fonts.googleapis.com/css?family=Heebo:700&display=swap' rel='stylesheet'>
+
+	<style>
+		#EorzeaClock {
+			font-family: 'Heebo', 'arial black',sans-serif;
+			font-size: 24px;
+			text-align: left;
+			width: 100%;
+			color: rgba(255, 255, 255, 1);
+			background: rgba(0, 0, 0, 0);
+			vertical-align: middle;
+			text-shadow:  0px   0px .3rem rgba(0,0,0,1),
+						 .4px  .4px  0rem rgba(0,0,0,1),
+						-.4px  .4px  0rem rgba(0,0,0,1),
+						 .4px -.4px  0rem rgba(0,0,0,1),
+						-.4px -.4px  0rem rgba(0,0,0,1);
+			cursor: move;
+		}
+	</style>
+
+	<script>
+
+// Get Cookie
+		function getCookieArray() {
+			var arr = new Array();
+			if(document.cookie != '') {
+				var tmp = document.cookie.split('; ');
+				for(var i=0;i<tmp.length;i++) {
+					var data = tmp[i].split('=');
+					arr[data[0]] = decodeURIComponent(data[1]);
+				}
+			}
+			return arr;
+		}
+
+// Get key 'fSize' from Cookie
+		var Cookies = getCookieArray();
+		var fSize = Cookies['fSize'];
+		if(fSize === undefined) {
+			fSize = 24;
+		}
+
+// Mouse Click Event
+		function MouseClick() {
+			fSize += 4;
+			if(fSize >= 64) {
+				fSize = 12;
+			}
+			document.cookie ='fSize=' + fSize; // Save the key 'fSize' in the cookie
+		}
+
+// Eorzea Clock
+		function EorzeaClock() {
+			var clock = document.getElementById('EorzeaClock');
+			var localDate = new Date();
+			var Weekdays = new Array('Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat');
+
+// Get Local time
+//			var localYear     = localDate.getFullYear();
+//			var localMonth    = (' ' + (localDate.getMonth() + 1)).slice(-2);
+//			var localDay      = (' ' + localDate.getDate()).slice(-2);
+//			var localWeek     = Weekdays[localDate.getDay()];
+			var localHours    = (' ' + localDate.getHours()).slice(-2);
+			var localMinute   = ('0' + localDate.getMinutes()).slice(-2);
+			var localSeconds  = ('0' + localDate.getSeconds()).slice(-2);
+
+// Get Eorzea time
+// Eorzea's day is 70 minutes Earth time. 1day(60min * 24hour) = 1440min = Earth Time 70min
+			var eorzeaDate    = Math.floor(localDate * (3600 / 175));
+			var eorzeaHours   = (' ' + Math.floor(eorzeaDate / (1000 * 60 * 60) % 24)).slice(-2);
+			var eorzeaMinute  = ('0' + Math.floor(eorzeaDate / (1000 * 60) % 60)).slice(-2);
+			var eorzeaSeconds = ('0' + Math.floor(eorzeaDate / 1000 % 60)).slice(-2);
+
+			clock.style.fontSize = fSize + 'px';
+//			clock.innerHTML = 'LT ' + localYear + '/' + localMonth + '/' + localDay + '(' + localWeek + ') ' + localHours + ':' + localMinute + ':' + localSeconds + ' / ET ' + eorzeaHours + ':' + eorzeaMinute + ':' + eorzeaSeconds;
+			clock.innerHTML = 'LT ' + localHours + ':' + localMinute + ':' + localSeconds + ' / ET ' + eorzeaHours + ':' + eorzeaMinute + ':' + eorzeaSeconds;
+		}
+
+// Start
+		function start() {
+			setInterval('EorzeaClock();', 60);
+			EorzeaClock();
+		}
+
+	</script>
+
+</head>
+
+<body onload='start();'>
+	<div id='EorzeaClock' onClick='MouseClick()'></div>
+</body>
+</html>
