@@ -7,6 +7,8 @@ And thanks to those who develop ACT, plugins and other tools.
 -------------------------------------------------------------------------------------
 
 
+![表示例](https://user-images.githubusercontent.com/54123288/73608667-25bcc680-4609-11ea-9f8e-cd2c45ea59db.png)
+
 
 これは、Advanced Combat Tracker用オーバーレイです。
 画面にローカル時間とエオルゼア時間を表示します。
