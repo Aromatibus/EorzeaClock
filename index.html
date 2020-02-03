@@ -66,21 +66,26 @@
 // Eorzea Clock
 		function EorzeaClock() {
 			var clock = document.getElementById("EorzeaClock");
-			var localDate = new Date();
+			var utcDate = new Date();
 			var Weekdays = new Array("Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat");
 
 // Get Local time
-			var localYear     = localDate.getFullYear();
-			var localMonth    = (" " + (localDate.getMonth() + 1)).slice(-2);
-			var localDay      = (" " + localDate.getDate()).slice(-2);
-			var localWeek     = Weekdays[localDate.getDay()];
-			var localHours    = (" " + localDate.getHours()).slice(-2);
-			var localMinute   = ("0" + localDate.getMinutes()).slice(-2);
-			var localSeconds  = ("0" + localDate.getSeconds()).slice(-2);
+			var localYear     = utcDate.getFullYear();
+			var localMonth    = (" " + (utcDate.getMonth() + 1)).slice(-2);
+			var localDay      = (" " + utcDate.getDate()).slice(-2);
+			var localWeek     = Weekdays[utcDate.getDay()];
+			var localHours    = (" " + utcDate.getHours()).slice(-2);
+			var localMinute   = ("0" + utcDate.getMinutes()).slice(-2);
+			var localSeconds  = ("0" + utcDate.getSeconds()).slice(-2);
+
+// Get UTC time
+			var utcHours   = (" " + Math.floor(utcDate / (1000 * 60 * 60) % 24)).slice(-2);
+			var utcMinute  = ("0" + Math.floor(utcDate / (1000 * 60) % 60)).slice(-2);
+			var utcSeconds = ("0" + Math.floor(utcDate / 1000 % 60)).slice(-2);
 
 // Get Eorzea time
-// Eorzea"s day is 70 minutes Earth time. 1day(60min * 24hour) = 1440min = Earth Time 70min
-			var eorzeaDate    = Math.floor(localDate * (1440 / 70));
+// Eorzea's day is 70 minutes Earth time. Earth 1day = (60min * 24hour) = 1440min : Eorzea 1day = Earth Time 70min
+			var eorzeaDate    = Math.floor(utcDate * (1440 / 70));
 			var eorzeaHours   = (" " + Math.floor(eorzeaDate / (1000 * 60 * 60) % 24)).slice(-2);
 			var eorzeaMinute  = ("0" + Math.floor(eorzeaDate / (1000 * 60) % 60)).slice(-2);
 			var eorzeaSeconds = ("0" + Math.floor(eorzeaDate / 1000 % 60)).slice(-2);
@@ -92,6 +97,9 @@
 					clock.innerHTML = "LT " + localHours + ":" + localMinute + ":" + localSeconds + " / ET " + eorzeaHours + ":" + eorzeaMinute + ":" + eorzeaSeconds;
 					break;
 				case 2:
+					clock.innerHTML = "ST " + utcHours + ":" + utcMinute + ":" + utcSeconds + " / ET " + eorzeaHours + ":" + eorzeaMinute + ":" + eorzeaSeconds;
+					break;
+				case 3:
 					clock.innerHTML = "LT " + localYear + "/" + localMonth + "/" + localDay + " (" + localWeek + ") " + localHours + ":" + localMinute + ":" + localSeconds + " / ET " + eorzeaHours + ":" + eorzeaMinute + ":" + eorzeaSeconds;
 					break;
 				default:
