@@ -5,9 +5,12 @@
 Thanks to Square Enix for giving us a wonderful adventure world.
 And thanks to those who develop ACT, plugins and other tools.
 -------------------------------------------------------------------------------------
+表示された時計をクリックすると拡大、一定まで拡大されると表示形式を変えて最小になります。
+Click on the displayed clock to enlarge it, and once it has expanded to a certain size, change the display format to minimize it.
 
 ![表示例1](https://user-images.githubusercontent.com/54123288/73611571-6c6ce980-4626-11ea-929c-c1faa6f69d89.png)
-![表示例2](https://user-images.githubusercontent.com/54123288/73611573-70007080-4626-11ea-9d5d-7e891ed24336.png)
+![表示例2](https://user-images.githubusercontent.com/54123288/73673352-d4d4cd00-46f1-11ea-8a51-83d8ddd5bf53.png)
+![表示例3](https://user-images.githubusercontent.com/54123288/73673427-f59d2280-46f1-11ea-8559-0ffa9e730478.png)
 
 これは、Advanced Combat Tracker用オーバーレイです。
 画面にローカル時間とエオルゼア時間を表示します。
