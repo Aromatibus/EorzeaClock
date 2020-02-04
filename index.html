@@ -52,20 +52,31 @@
 		var DispForm = Cookies["DispForm"];
 		if(DispForm === undefined) DispForm = 1;
 
-// Mouse Click Event
-		function MouseClick() {
-			DispSize += 4;
-			if(DispSize > 60) {
-				DispSize = 12;
-				DispForm += 1;
-			}
-			document.cookie ="DispSize=" + DispSize; // Save the key in the cookie
-			document.cookie ="DispForm=" + DispForm; // Save the key in the cookie
-		}
-
 // Eorzea Clock
+		var Clicked = false;
 		function EorzeaClock() {
 			var clock = document.getElementById("EorzeaClock");
+
+// Mouse Click Event
+			clock.onclick = function (evt) {
+				if (Clicked) { // Double click (click flag was "Clicked" with True)
+			    		Clicked = false;
+					DispForm += 1;
+			    		return;
+				}
+				Clicked = true;
+				setTimeout(function () {
+					if (Clicked) { // Single-click ("Clicked" is not reset by Double-click processing)
+						DispSize += 4;
+						if(DispSize > 60) DispSize = 12;
+					}
+					Clicked = false;
+				}, 300); // After single click, wait for 300ms double click judgment
+				document.cookie ="DispSize=" + DispSize; // Save the key in the cookie
+				document.cookie ="DispForm=" + DispForm; // Save the key in the cookie
+			}
+
+// Calculate Clock
 			var utcDate = new Date();
 			var Weekdays = new Array("Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat");
 
@@ -77,11 +88,17 @@
 			var localHours    = (" " + utcDate.getHours()).slice(-2);
 			var localMinute   = ("0" + utcDate.getMinutes()).slice(-2);
 			var localSeconds  = ("0" + utcDate.getSeconds()).slice(-2);
+			var localMilliSeconds  = ("00" + utcDate.getMilliseconds()).slice(-3);
 
 // Get UTC time
-			var utcHours   = (" " + Math.floor(utcDate / (1000 * 60 * 60) % 24)).slice(-2);
-			var utcMinute  = ("0" + Math.floor(utcDate / (1000 * 60) % 60)).slice(-2);
-			var utcSeconds = ("0" + Math.floor(utcDate / 1000 % 60)).slice(-2);
+			var utcYear     = utcDate.getUTCFullYear();
+			var utcMonth    = (" " + (utcDate.getUTCMonth() + 1)).slice(-2);
+			var utcDay      = (" " + utcDate.getUTCDate()).slice(-2);
+			var utcWeek     = Weekdays[utcDate.getUTCDay()];
+			var utcHours    = (" " + utcDate.getUTCHours()).slice(-2);
+			var utcMinute   = ("0" + utcDate.getUTCMinutes()).slice(-2);
+			var utcSeconds  = ("0" + utcDate.getUTCSeconds()).slice(-2);
+			var utcMilliSeconds  = ("00" + utcDate.getUTCMilliseconds()).slice(-3);
 
 // Get Eorzea time
 // Eorzea's day is 70 minutes Earth time. Earth 1day = (60min * 24hour) = 1440min : Eorzea 1day = Earth Time 70min
@@ -119,6 +136,6 @@
 </head>
 
 <body onload="start();">
-	<div id="EorzeaClock" onClick="MouseClick()"></div>
+	<div id="EorzeaClock"></div>
 </body>
 </html>
