@@ -6,6 +6,8 @@
 	<meta charset="utf-8">
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	<script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"></script>
 	<link href="https://fonts.googleapis.com/css?family=Heebo:700&display=swap" rel="stylesheet">
 
 	<style>
@@ -131,11 +133,20 @@
 			EorzeaClock();
 		}
 
-	</script>
+//Tooltip
+		$(function(){
+			$(document).tooltip({
+				position:{at:"center top", my:"center bottom", collision:"flipfit"},
+				show:{effect:"fade", duration:500}
+			});
+		});
 
+	</script>
 </head>
 
 <body onload="start();">
-	<div id="EorzeaClock"></div>
+	<div id="EorzeaClock"
+		title="時計をクリックすると表示形式を変更します。ダブルクリックすると拡大し一定まで大きくなると最小になります。 Click the displayed clock to change the display format. Double click to enlarge. It reaches a minimum when it reaches a certain level.">
+	</div>
 </body>
 </html>
