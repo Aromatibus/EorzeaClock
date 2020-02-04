@@ -61,14 +61,14 @@
 			clock.onclick = function (evt) {
 				if (Clicked) { // Double click (click flag was "Clicked" with True)
 			    		Clicked = false;
-					DispForm += 1;
+						DispSize += 4;
+						if(DispSize > 60) DispSize = 12;
 			    		return;
 				}
 				Clicked = true;
 				setTimeout(function () {
 					if (Clicked) { // Single-click ("Clicked" is not reset by Double-click processing)
-						DispSize += 4;
-						if(DispSize > 60) DispSize = 12;
+						DispForm += 1;
 					}
 					Clicked = false;
 				}, 300); // After single click, wait for 300ms double click judgment
