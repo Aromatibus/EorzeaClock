@@ -5,8 +5,8 @@
 Thanks to Square Enix for giving us a wonderful adventure world.
 And thanks to those who develop ACT, plugins and other tools.
 -------------------------------------------------------------------------------------
-表示された時計をクリックすると拡大、一定まで拡大されると最小になります。ダブルクリックすると表示形式が変わります。
-Click the displayed clock to zoom in and zoom in to a specific size to minimize it. Double-click to change the display format.
+表示された時計をクリックすると表示形式を変更します。ダブルクリックすると拡大します。一定まで大きくなると最小になります。
+Click the displayed clock to change the display format. Double click to enlarge. It reaches a minimum when it reaches a certain level.
 
 ![表示例1](https://user-images.githubusercontent.com/54123288/73611571-6c6ce980-4626-11ea-929c-c1faa6f69d89.png)
 ![表示例2](https://user-images.githubusercontent.com/54123288/73673352-d4d4cd00-46f1-11ea-8a51-83d8ddd5bf53.png)
