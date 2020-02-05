@@ -8,9 +8,13 @@ And thanks to those who develop ACT, plugins and other tools.
 表示された時計をクリックすると表示形式を変更します。ダブルクリックすると拡大します。一定まで大きくなると最小になります。
 Click the displayed clock to change the display format. Double click to enlarge. It reaches a minimum when it reaches a certain level.
 
-![表示例1](https://user-images.githubusercontent.com/54123288/73611571-6c6ce980-4626-11ea-929c-c1faa6f69d89.png)
-![表示例2](https://user-images.githubusercontent.com/54123288/73673352-d4d4cd00-46f1-11ea-8a51-83d8ddd5bf53.png)
-![表示例3](https://user-images.githubusercontent.com/54123288/73673427-f59d2280-46f1-11ea-8559-0ffa9e730478.png)
+![表示例1 (LTET-White)](https://user-images.githubusercontent.com/54123288/73815429-53805600-4829-11ea-9c61-77e8e3261ddf.png)
+![表示例2 (LTET-NeonBlue)](https://user-images.githubusercontent.com/54123288/73815433-554a1980-4829-11ea-88b4-2cc1ec360c39.png)
+![表示例3 (LTET-NeonRed)](https://user-images.githubusercontent.com/54123288/73815436-5713dd00-4829-11ea-911d-dc327883a706.png)
+![表示例4 (LTET-Black)](https://user-images.githubusercontent.com/54123288/73815443-58dda080-4829-11ea-9040-c12dd2948a25.png)
+![表示例5 (STET)](https://user-images.githubusercontent.com/54123288/73815447-5bd89100-4829-11ea-80ed-051cc8039033.png)
+![表示例6 (YYYYMMDD-LTET)](https://user-images.githubusercontent.com/54123288/73815450-5da25480-4829-11ea-9cca-5f145589b69d.png)
+![表示例7 (Zoom)](https://user-images.githubusercontent.com/54123288/73815454-5f6c1800-4829-11ea-8d39-bfde8d709774.png)
 
 これは、Advanced Combat Tracker用オーバーレイです。
 画面にローカル時間とエオルゼア時間を表示します。
