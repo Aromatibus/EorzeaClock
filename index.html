@@ -6,8 +6,6 @@
 	<meta charset="utf-8">
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-	<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-	<script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"></script>
 	<link href="https://fonts.googleapis.com/css?family=Heebo:700&display=swap" rel="stylesheet">
 
 	<style>
@@ -15,20 +13,67 @@
 			font-family: "Heebo", "arial black",sans-serif;
 			font-size: 24px;
 			text-align: left;
-			width: 100%;
-			color: rgba(255, 255, 255, 1);
-			background: rgba(0, 0, 0, 0);
 			vertical-align: middle;
-			text-shadow:  0px   0px .3rem rgba(0,0,0,1),
-						 .4px  .4px  0rem rgba(0,0,0,1),
-						-.4px  .4px  0rem rgba(0,0,0,1),
-						 .4px -.4px  0rem rgba(0,0,0,1),
-						-.4px -.4px  0rem rgba(0,0,0,1);
+			overflow: visible
+			max-width: 500%;
+			white-space: pre;
+			color: rgba(0,0,0,1);
 			cursor: move;
 		}
 	</style>
 
 	<script>
+
+// Set Color Code
+		function setColor(ColorType){
+			var clock = document.getElementById("EorzeaClock");
+			switch (ColorType) {
+				case "White":
+				case 1:
+					clock.style.color          	= "rgba(255, 255, 255, 1)";
+					clock.style.backgroundcolor	= "rgba(  0,   0,   0, 0)";
+					clock.style.textShadow 		= "  0px   0px .3rem rgba(  0,   0,   0, 1)," +
+												  " .5px  .5px  0rem rgba(  0,   0,   0, 1)," +
+												  "-.5px  .5px  0rem rgba(  0,   0,   0, 1)," +
+												  " .5px -.5px  0rem rgba(  0,   0,   0, 1)," +
+												  "-.5px -.5px  0rem rgba(  0,   0,   0, 1)";
+					break;
+				case "NeonBlue":
+				case 2:
+					clock.style.color          	= "rgba(255, 255, 255, 1)";
+					clock.style.backgroundcolor	= "rgba(255, 255, 255, 0)";
+					clock.style.textShadow		= "  0px   0px 15px  rgba(255, 255, 255, .5)," +
+												  "  0px   0px .2rem rgba(255, 255, 255, .5)," +
+												  "  0px   0px .3rem rgba( 70, 102, 255, 1)," +
+												  "  0px   0px .4rem rgba( 70, 102, 255, 1)," +
+												  "  0px   0px .5rem rgba( 70, 102, 255, 1)";
+					break;
+				case "NeonRed":
+				case 3:
+					clock.style.color          	= "rgba(255, 255, 255, 1)";
+					clock.style.backgroundcolor	= "rgba(255, 255, 255, 0)";
+					clock.style.textShadow		= "  0px   0px 15px  rgba(255, 255, 255, .5)," +
+												  "  0px   0px .2rem rgba(255, 255, 255, .5)," +
+												  "  0px   0px .3rem rgba(229,   7,  58, 1)," +
+												  "  0px   0px .4rem rgba(229,   7,  58, 1)," +
+												  "  0px   0px .5rem rgba(229,   7,  58, 1)";
+					break;
+				case "Black":
+				case 4:
+					clock.style.color          	= "rgba(  0,   0,   0, 1)";
+					clock.style.backgroundcolor	= "rgba(255, 255, 255, 0)";
+					clock.style.textShadow		= "  0px   0px .5rem rgba(255, 255, 255, 1)," +
+												  " .6px  .6px  0rem rgba(255, 255, 255, 1)," +
+												  "-.6px  .6px  0rem rgba(255, 255, 255, 1)," +
+												  " .6px -.6px  0rem rgba(255, 255, 255, 1)," +
+												  "-.6px -.6px  0rem rgba(255, 255, 255, 1)";
+					break;
+				default:
+					DispColor = 1;
+					DispForm += 1;
+					break;
+			}
+		}
 
 // Get Cookie & Split into "Cookies"
 //alert("Cookie [" + document.cookie + "]");   // Debug
@@ -54,28 +99,40 @@
 		var DispForm = Cookies["DispForm"];
 		if(DispForm === undefined) DispForm = 1;
 
+// Get key "DispColor" from Cookies
+		var DispColor = Cookies["DispColor"];
+		if(DispColor === undefined) DispColor = 1;
+
 // Eorzea Clock
 		var Clicked = false;
 		function EorzeaClock() {
 			var clock = document.getElementById("EorzeaClock");
 
+// Beep Sound
+			var Beep_base64 = "UklGRhYOAABXQVZFZm10IBAAAAABAAEAESsAABErAAABAAgAZGF0YcQNAACAgICAgICAgIB9fYCDio2KgHNjXWN6kK26s5ZtQy0zVoq93d26g0ogFjBqpt3z4KpmJgMNQIbN9vrQikMQACBgpuP96rNqJgMKOoDG9vrTkEoTAB1ao+D97bZwLQYKNn3D8/3alk0WABpWnd398L1zMAYGM3rA8P3dmlMaABZQmtr988B6MwoGLXO68P3goFYdABNNk9b688OAOgoDKm227f3jo10gABBGjdP69sqAPQ0DJmqw6v3mqmMjAw1DitD6+s2GQA0DI2Ot5v3qsGYmAw09g8r2+tCNRhAAIF2m4/3ts20qAwo6gMbz+taTTRMAHVqg4P3tunMtBgo2fcDz/dqWUBYAGlOd3f3wvXYzBgYwdr3w/d2dVhoAFlCW2vrzwH02CgYtcLrt/eCgWh0AE0qQ0/rzxoA6CgMqbbPq/eOmYCADEEaN0Pr2yoNADQMjZq3m/eatYyMDDUCGzfb60IpDEAMgYKrj/eqwaiYDCj2Axvb605BGEAAdXaPg/e22bSoDCjaAw/P61pNNEwAaVqDd/fC6cy0GBjN6wPD92ppQFgAWU5ra/fPAejMGBjBzuvD93Z1WGgATTZPW+vPDfTYKAypwtu3946NaHQAQRpDT+vbGgDoKAyZqsOr95qpgIAMQQ4rQ+vbNhkANAyNjreb96q1mIwMNQIPK9vrQikMQACBgpuP96rNqJgMKOoDG8/PQkFAgEypgms3g06pzQyowUH2qxsqzjWZKQE1tjaOmnY2AdnN2fYCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICDg4aGhoODgIB6dnNwbW1wc3qAhpCaoKOjoJqQg3pqXVNNSlBWY3OAkKCqs7a2sKOWhnZqWlBKSk1WY3CAkJ2qs7a2sKOWhnpqWlBKSk1TYHCAjZ2qs7a2sKaahnpqXVBKSk1TYHCAjZ2qs7a2sKaain1qXVNKSk1TYG19jZqqs7a2sKaain1tXVNKSkpTXW19ipqmsLa2sKqajX1tYFNNSkpTXW19ipqmsLa2s6qdjYBwYFNNSkpQXWp6ipamsLa2s6qdjYBwYFNNSkpQWmp6hpamsLa2s6qdkIBwY1ZNSkpQWmZ6hpajsLa2s62gkIBzY1ZNSkpQWmZ2g5Ojrba2s62gkIBzY1ZNSkpQWmZ2g5OjrbO2s62gk4BzY1ZNSkpNVmNzg5OgrbO2s62jk4N2ZlpQSkpNVmNzgJCgrbO2s62jk4N2ZlpQSkpNVmNzgJCgrbO2trCjloZ2ZlpQSkpNVmNwgJCgqrO2trCjloZ6alpQSkpNU2BwgI2dqrO2trCmloZ6al1QSkpNU2BwgI2dqrO2trCmmop6al1QSkpNU2BtfY2dqrC2trCmmop9bV1TSkpKU11tfYqaprC2trCmmop9bWBTSkpKUF1tfYqaprC2trOqnY2AbWBTTUpKUF1qeoqaprC2trOqnY2AcGBTTUpKUFpqeoaWprC2trOqnZCAcGBWTUpKUFpmeoaWo7C2trOqoJCAcGNWTUpKUFpmdoaWo62ztrOtoJCAc2NWTUpKUFpmdoOTo62ztrOtoJOAc2NWTUpKTVZmc4OToK2ztrOtoJODdmZWTUpKTVZjc4CToK2ztrOto5ODdmZaUEpKTVZjc4CQoK2ztrato5aGdmZaUEpKTVZjcICQnaqztrawo5aGempaUEpKTVNgcICNnaqztrawppaGempdUEpKTVNgcICNnaqztrawppqKempdUEpKTVNgbYCNnaqwtrawppqKfW1dU0pKSlNdbX2KmqawtrawppqKfW1dU0pKSlNdbX2Kmqawtrazqp2NgG1gU01KSlBdanqKmqawtrazqp2NgHBgU01KSlBdanqGlqawtrazqp2NgHBgU01KSlBaanqGlqOwtrazqqCQgHBjVk1KSlBaZnaGlqOts7azraCQgHNjVk1KSlBaZnaDk6Ots7azraCTgHNjVk1KSk1WZnaDk6Cts7azraCTg3NmVk1KSk1WY3OAk6Cts7azraOTg3ZmWlBKSk1WY3OAkKCts7a2raOWhnZmWlBKSk1WY3CAkKCqs7a2sKOWhnpqWlBKSk1TYHCAjZ2qs7a2sKaWhnpqXVBKSk1TYHCAjZ2qs7a2sKaainpqXVBKSk1TYG2AjZ2qs7a2sKaain1tXVNKSkpTXW19ipqmsLa2sKaain1tXVNKSkpTXW19ipqmsLa2sKqdjX1tYFNNSkpQXWp6ipqmsLa2s6qajYBwY1pTU1NdZnB9hpCWmpqak5CKg4B9enp6enp9gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgH5+gIKIi4mAc2NdY3qQrbqzlm1DLTNWir3d3bqDSiAWMGqm3fPgqmYmAw1Ahs32+tCKQxAAIGCm4/3qs2omAwo6gMb2+tOQShMAHVqj4P3ttnAtBgo2fcPz/dqWTRYAGlad3f3wvXMwBgYzesDw/d2aUxoAFlCa2v3zwHozCgYtc7rw/eCgVh0AE02T1vrzw4A6CgMqbbbt/eOjXSAAEEaN0/r2yoA9DQMmarDq/eaqYyMDDUOK0Pr6zYZADQMjY63m/eqwZiYDDT2Dyvb60I1GEAAgXabj/e2zbSoDCjqAxvP61pNNEwAdWqDg/e26cy0GCjZ9wPP92pZQFgAaU53d/fC9djMGBjB2vfD93Z1WGgAWUJba+vPAfTYKBi1wuu394KBaHQATSpDT+vPGgDoKAypts+r946ZgIAMQRo3Q+vbKg0ANAyNmreb95q1jIwMNQIbN9vrQikMQAyBgquP96rBqJgMKPYDG9vrTkEYQAB1do+D97bZtKgMKNoDD8/rWk00TABpWoN398LpzLQYGM3rA8P3amlAWABZTmtr988B6MwYGMHO68P3dnVYaABNNk9b688N9NgoDKnC27f3jo1odABBGkNP69saAOgoDJmqw6v3mqmAgAxBDitD69s2GQA0DI2Ot5v3qrWYjAw1Ag8r2+tCKQxAAIGCm4/3qs2omAwo6gMbz89CQUCATKmCazeDTqnNDKjBQfarGyrONZkpATW2No6adjYB2c3Z9gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIODhoaGg4OAgHp2c3BtbXBzeoCGkJqgo6OgmpCDempdU01KUFZjc4CQoKqztrawo5aGdmpaUEpKTVZjcICQnaqztrawo5aGempaUEpKTVNgcICNnaqztrawppqGempdUEpKTVNgcICNnaqztrawppqKfWpdU0pKTVNgbX2NmqqztrawppqKfW1dU0pKSlNdbX2KmqawtrawqpqNfW1gU01KSlNdbX2Kmqawtrazqp2NgHBgU01KSlBdanqKlqawtrazqp2NgHBgU01KSlBaanqGlqawtrazqp2QgHBjVk1KSlBaZnqGlqOwtrazraCQgHNjVk1KSlBaZnaDk6OttrazraCQgHNjVk1KSlBaZnaDk6Ots7azraCTgHNjVk1KSk1WY3ODk6Cts7azraOTg3ZmWlBKSk1WY3OAkKCts7azraOTg3ZmWlBKSk1WY3OAkKCts7a2sKOWhnZmWlBKSk1WY3CAkKCqs7a2sKOWhnpqWlBKSk1TYHCAjZ2qs7a2sKaWhnpqXVBKSk1TYHCAjZ2qs7a2sKaainpqXVBKSk1TYG19jZ2qsLa2sKaain1tXVNKSkpTXW19ipqmsLa2sKaain1tYFNKSkpQXW19ipqmsLa2s6qdjYBtYFNNSkpQXWp6ipqmsLa2s6qdjYBwYFNNSkpQWmp6hpamsLa2s6qdkIBwYFZNSkpQWmZ6hpajsLa2s6qgkIBwY1ZNSkpQWmZ2hpajrbO2s62gkIBzY1ZNSkpQWmZ2g5OjrbO2s62gk4BzY1ZNSkpNVmZzg5OgrbO2s62gk4N2ZlZNSkpNVmNzgJOgrbO2s62jk4N2ZlpQSkpNVmNzgJCgrbO2tq2jloZ2ZlpQSkpNVmNwgJCdqrO2trCjloZ6alpQSkpNU2BwgI2dqrO2trCmloZ6al1QSkpNU2BwgI2dqrO2trCmmop6al1QSkpNU2BtgI2dqrC2trCmmop9bV1TSkpKU11tfYqaprC2trCmmop9bV1TSkpKU11tfYqaprC2trOqnY2AbWBTTUpKUF1qeoqaprC2trOqnY2AcGBTTUpKUF1qeoaWprC2trOqnY2AcGBTTUpKUFpqeoaWo7C2trOqoJCAcGNWTUpKUFpmdoaWo62ztrOtoJCAc2NWTUpKUFpmdoOTo62ztrOtoJOAc2NWTUpKTVZmdoOToK2ztrOtoJODc2ZWTUpKTVZjc4CToK2ztrOto5ODdmZaUEpKTVZjc4CQoK2ztrato5aGdmZaUEpKTVZjcICQoKqztrawo5aGempaUEpKTVNgcICNnaqztrawppaGempdUEpKTVNgcICNnaqztrawppqKempdUEpKTVNgbYCNnaqztrawppqKfW1dU0pKSlNdbX2KmqawtrawppqKfW1dU0pKSlNdbX2Kmqawtrawqp2NfW1gU01KSlBdanqKmqawtrazqpqNgHBjWlNTU11mcH2GkJaampqTkIqDgH16enp6en2AgICAgICAgICAgICAgICAgICAgICAgExJU1QmAAAASU5GT0lTRlQZAAAAQ29kZXJpdW0gU291bmRFbmdpbmUgNS4wMQA=";
+			var BeepSound = new Audio("data:audio/wav;base64," + Beep_base64);
+
 // Mouse Click Event
 			clock.onclick = function (evt) {
 				if (Clicked) { // Double click (click flag was "Clicked" with True)
-			    		Clicked = false;
+						Clicked = false;
+						DispSizeMax = 60
 						DispSize += 4;
-						if(DispSize > 60) DispSize = 12;
-			    		return;
+						if(DispSize == DispSizeMax) BeepSound.play(); // Play sound when display size is maximized
+						if(DispSize > DispSizeMax) DispSize = 12;
+						return;
 				}
 				Clicked = true;
 				setTimeout(function () {
 					if (Clicked) { // Single-click ("Clicked" is not reset by Double-click processing)
-						DispForm += 1;
+						DispColor += 1;
+						if(DispForm > 3) DispForm = 1;
 					}
 					Clicked = false;
 				}, 300); // After single click, wait for 300ms double click judgment
-				document.cookie ="DispSize=" + DispSize; // Save the key in the cookie
-				document.cookie ="DispForm=" + DispForm; // Save the key in the cookie
+				document.cookie ="DispSize="  + DispSize; // Save the key in the cookie
+				document.cookie ="DispForm="  + DispForm; // Save the key in the cookie
+				document.cookie ="DispColor=" + DispColor; // Save the key in the cookie
 			}
 
 // Calculate Clock
@@ -111,6 +168,7 @@
 
 // Display Format
 			clock.style.fontSize = DispSize + "px";
+			setColor(DispColor);
 			switch (DispForm) {
 				case 1:
 					clock.innerHTML = "LT " + localHours + ":" + localMinute + ":" + localSeconds + " / ET " + eorzeaHours + ":" + eorzeaMinute + ":" + eorzeaSeconds;
@@ -132,21 +190,10 @@
 			setInterval("EorzeaClock();", 60);
 			EorzeaClock();
 		}
-
-//Tooltip
-		$(function(){
-			$(document).tooltip({
-				position:{at:"center top", my:"center bottom", collision:"flipfit"},
-				show:{effect:"fade", duration:500}
-			});
-		});
-
 	</script>
 </head>
 
 <body onload="start();">
-	<div id="EorzeaClock"
-		title="時計をクリックすると表示形式を変更します。ダブルクリックすると拡大し一定まで大きくなると最小になります。 Click the displayed clock to change the display format. Double click to enlarge. It reaches a minimum when it reaches a certain level.">
-	</div>
+	<div id="EorzeaClock"></div>
 </body>
 </html>
