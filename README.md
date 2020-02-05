@@ -24,8 +24,6 @@ Click the displayed clock to change the display format. Double click to enlarge.
 ngld/OverlayPlugin https://github.com/ngld/OverlayPlugin で動作を確認しました。
 "MiniParseOverlay" で追加してください。
 表示するURLは、https://aromatibus.github.io/EorzeaClock/ です。
-細かなバグがあります。
-オーバーレイで表示するとクッキーが使用できないためサイズの保存ができませんでした。
 PCに詳しい方は "index.html" をPCに保存して改造できます。
 楽しんでいただければ幸いです。
 
@@ -35,7 +33,5 @@ Displays the local time and Eorzea time on the screen.
 ngld/OverlayPlugin https://github.com/ngld/OverlayPlugin has confirmed the operation.
 Please add with "MiniParseOverlay".
 The URL to be displayed is "https://aromatibus.github.io/EorzeaClock/".
-There are minor bugs.
-When displaying in the overlay, the size could not be saved because cookies could not be used.
 If you are familiar with PC, you can save "index.html" on PC and modify it.
 I hope you enjoy it.
