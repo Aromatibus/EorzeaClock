@@ -8,17 +8,6 @@ And thanks to those who develop ACT, plugins and other tools.
 エオルゼアの秒数まで表示する時計です。
 A clock that displays up to Eorzea seconds.
 
-表示された時計をクリックすると表示形式を変更します。ダブルクリックすると拡大します。一定まで大きくなると最小になります。
-Click the displayed clock to change the display format. Double click to enlarge. It reaches a minimum when it reaches a certain level.
-
-![表示例1 (LTET-White)](https://user-images.githubusercontent.com/54123288/73815429-53805600-4829-11ea-9c61-77e8e3261ddf.png)
-![表示例2 (LTET-NeonBlue)](https://user-images.githubusercontent.com/54123288/73815433-554a1980-4829-11ea-88b4-2cc1ec360c39.png)
-![表示例3 (LTET-NeonRed)](https://user-images.githubusercontent.com/54123288/73815436-5713dd00-4829-11ea-911d-dc327883a706.png)
-![表示例4 (LTET-Black)](https://user-images.githubusercontent.com/54123288/73815443-58dda080-4829-11ea-9040-c12dd2948a25.png)
-![表示例5 (STET)](https://user-images.githubusercontent.com/54123288/73815447-5bd89100-4829-11ea-80ed-051cc8039033.png)
-![表示例6 (YYYYMMDD-LTET)](https://user-images.githubusercontent.com/54123288/73815450-5da25480-4829-11ea-9cca-5f145589b69d.png)
-![表示例7 (Zoom)](https://user-images.githubusercontent.com/54123288/73815454-5f6c1800-4829-11ea-8d39-bfde8d709774.png)
-
 これは、Advanced Combat Tracker用オーバーレイです。
 画面にローカル時間とエオルゼア時間を表示します。
 ngld/OverlayPlugin https://github.com/ngld/OverlayPlugin で動作を確認しました。
@@ -27,7 +16,6 @@ ngld/OverlayPlugin https://github.com/ngld/OverlayPlugin で動作を確認し�
 PCに詳しい方は "index.html" をPCに保存して改造できます。
 楽しんでいただければ幸いです。
 
-
 This is an overlay for Advanced Combat Tracker.
 Displays the local time and Eorzea time on the screen.
 ngld/OverlayPlugin https://github.com/ngld/OverlayPlugin has confirmed the operation.
@@ -35,3 +23,24 @@ Please add with "MiniParseOverlay".
 The URL to be displayed is "https://aromatibus.github.io/EorzeaClock/".
 If you are familiar with PC, you can save "index.html" on PC and modify it.
 I hope you enjoy it.
+
+![表示例1 (LTET-White)](https://user-images.githubusercontent.com/54123288/74087730-75503600-4ad2-11ea-9f67-bc2332726bd2.png)
+![表示例2 (LTET-NeonBlue)](https://user-images.githubusercontent.com/54123288/74087731-75e8cc80-4ad2-11ea-86c1-0785a92ec943.png)
+![表示例3 (LTET-NeonRed)](https://user-images.githubusercontent.com/54123288/74087732-76816300-4ad2-11ea-9dc8-0449bd92aebe.png)
+![表示例4 (LTET-Black)](https://user-images.githubusercontent.com/54123288/74087734-7719f980-4ad2-11ea-9810-0814f1ecbe5f.png)
+![表示例5 (STET)](https://user-images.githubusercontent.com/54123288/74087735-7719f980-4ad2-11ea-9c48-367ffc593cd8.png)
+![表示例6 (LTSTET)](https://user-images.githubusercontent.com/54123288/74087736-77b29000-4ad2-11ea-8da5-6ea538bf00df.png)
+![表示例7 (YYYYMMDD-LTET)](https://user-images.githubusercontent.com/54123288/74087737-77b29000-4ad2-11ea-8b31-86927c3df99f.png)
+![表示例8 (Zoom)](https://user-images.githubusercontent.com/54123288/74087738-784b2680-4ad2-11ea-8e56-649f71b0556e.png)
+
+表示された時計をクリックすると表示形式を変更します。ダブルクリックすると拡大します。一定まで大きくなると最小になります。
+Click the displayed clock to change the display format. Double click to enlarge. It reaches a minimum when it reaches a certain level.
+
+NICTのサーバーからJST(日本標準時)を取得しUTC(協定世界時)=ST(サーバー時間)を計算しています。
+JST (Japan Standard Time) is obtained from the NICT server and UTC (Coordinated Universal Time) = ST (server time) is calculated.
+NICT SERVER Guidelines >> http://http://www.nict.go.jp/JST/http.html
+
+ローカル時間、エオルゼア時間はPCの時間を基準にしています。
+タイムゾーンからローカル時間を計算することはできます。ユーザーからタイムゾーンの選択させるプログラムができたら実装します。
+Local time and Eorzea time are based on PC time.
+You can calculate the local time from the time zone. Once you have created a program that allows users to select a time zone, implement it.
