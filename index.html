@@ -1,294 +1,438 @@
+<!DOCTYPE html>
 <html>
 <head>
-<title>Eorzea Clock</title>
+  <meta charset="UTF-8" />
+  <meta http-equiv="content-language" content="ja" />
+  <title>Eorzea Clock Advanced Combat Tracker Overlay</title>
+  <meta
+    name="description"
+    content="Final Fantasi XIV (FF14) ファイナル・ファンタジー１４ エオルゼア・クロック 
+    This is an overlay for the Advanced Combat Tracker that displays the local time and Eorzea time including seconds." />
+  <link
+    href="https://fonts.googleapis.com/css?family=Heebo:700&display=swap"
+    rel="stylesheet" />
+</head>
+<style type="text/css">
+  #EorzeaClock {
+    max-width: 500%;
+    overflow: visible;
+    font-family: "Heebo", "arial black", sans-serif;
+    color: rgba(0, 0, 0, 1);
+    text-align: left;
+    white-space: pre;
+    vertical-align: middle;
+    cursor: move;
+  }
 
-<meta charset="UTF-8">
-<meta http-equiv="content-language" content="ja">
+  .HowToUseForm {
+    position: absolute;
+    width: 400px;
+    padding: 0 .8rem;
+    visibility: hidden;
+    background-color: rgba(255, 250, 200, 1);
+    border: 5px double rgba(50, 50, 50, .5);
+    border-radius: 10px 10px 10px 10px;
+    box-shadow: .2em .2em .7em rgba(100, 100, 100, .3);
+    transition-delay: .2s;
+    transition-duration: .5s;
+  }
 
-<link href="https://fonts.googleapis.com/css?family=Heebo:700&display=swap" rel="stylesheet">
-
-<style>
-	#EorzeaClock {
-		font-family: "Heebo", "arial black",sans-serif;
-		text-align: left;
-		vertical-align: middle;
-		overflow: visible;
-		max-width: 500%;
-		white-space: pre;
-		color: rgba(0,0,0,1);
-		cursor: move;
-	}
+  * {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+  }
 </style>
 
 <script type="text/javascript">
+  // Obtain the difference between Japan Standard Time (JST) and Coordinated Universal Time (UTC)
+  var utcOffset; //Global variables
+  var jst; //Global variables
+  function jsont(json) {
+    jst = new Date(json["st"] * 1000);
+    var jstTime = jst.getTime();
+    utcOffset = jst.getTimezoneOffset() * 60 * 1000;
+    console.log(
+      "JST was obtained from the server > " +
+      jst.toLocaleString() +
+      " / utcOffset(" +
+      utcOffset.toLocaleString() +
+      ")"
+    );
+  }
 
-// Obtain the difference between Japan Standard Time (JST) and Coordinated Universal Time (UTC)
-	var utcOffset; //Global variables
-	var jst;       //Global variables
-	function jsont(json) {
-		jst = new Date(json["st"] * 1000);
-		var jstTime = jst.getTime();
-		utcOffset = jst.getTimezoneOffset() * 60 * 1000;
-		console.log("JST was obtained from the server > " + jst.toLocaleString() + " / utcOffset(" + utcOffset.toLocaleString() + ")");
-	}
+  // Get key "DispSize" from localStorage & Convert type to integer
+  var DispSize = localStorage.getItem("DispSize"); //Global variables
+  if (DispSize === null) DispSize = 24;
+  DispSize = parseInt(DispSize, 10);
 
-// Get key "DispSize" from localStorage & Convert type to integer
-	var DispSize = localStorage.getItem("DispSize"); //Global variables
-	if(DispSize === null) DispSize = 24;
-	DispSize = parseInt(DispSize, 10);
+  // Get key "DispForm" from localStorage & Convert type to integer
+  var DispForm = localStorage.getItem("DispForm"); //Global variables
+  if (DispForm === null) DispForm = 1;
+  DispForm = parseInt(DispForm, 10);
 
-// Get key "DispForm" from localStorage & Convert type to integer
-	var DispForm = localStorage.getItem("DispForm"); //Global variables
-	if(DispForm === null) DispForm = 1;
-	DispForm = parseInt(DispForm, 10);
+  // Get key "DispColor" from localStorage & Convert type to integer
+  var DispColor = localStorage.getItem("DispColor"); //Global variables
+  if (DispColor === null) DispColor = 1;
+  DispColor = parseInt(DispColor, 10);
 
-// Get key "DispColor" from localStorage & Convert type to integer
-	var DispColor = localStorage.getItem("DispColor"); //Global variables
-	if(DispColor === null) DispColor = 1;
-	DispColor = parseInt(DispColor, 10);
+  // Save the key to localStorage
+  localStorage.setItem("DispSize", DispSize);
+  localStorage.setItem("DispForm", DispForm);
+  localStorage.setItem("DispColor", DispColor);
 
-// Save the key to localStorage
-	localStorage.setItem("DispSize", DispSize);
-	localStorage.setItem("DispForm", DispForm);
-	localStorage.setItem("DispColor", DispColor);
-
-// Music init
-	var Music = new Audio(); //Global variables
-	var TrackNum = 0; //Global variables
-	var Tracklist = ["crrect_answer2.mp3",
-					 "crrect_answer3.mp3",
-					 "FFXIV_FATE01_Complete.mp3",
-					 "FFXIV_FATE01_Start.mp3",
-					 "FFXIV_FATE02_Complete.mp3",
-					 "FFXIV_FATE02_Start.mp3",
-					 "FFXIV_Feature_Unlocked.mp3",
-					 "FFXIV_Full_Party.mp3",
-					 "FFXIV_Guildleve_Complete.mp3",
-					 "FFXIV_Hunting_Log_Complete.mp3",
-					 "FFXIV_Immortal_Flames_Promotion.mp3",
-					 "FFXIV_Incoming_Tell_1.mp3",
-					 "FFXIV_Incoming_Tell_2.mp3",
-					 "FFXIV_Level_Up.mp3",
-					 "FFXIV_Limit_Break_Activated.mp3",
-					 "FFXIV_Limit_Break_Charged.mp3",
-					 "FFXIV_Linkshell_Transmission.mp3",
-					 "FFXIV_Log_Out.mp3",
-					 "FFXIV_Maelstrom_Promotion.mp3",
-					 "FFXIV_Quest_Accepted.mp3",
-					 "FFXIV_Quest_Complete.mp3",
-					 "FFXIV_Win_Lot.mp3"];  //Global variables
-
-	function Music_init() {
-		Music.preload = "auto";
-		Music.src = "https://aromatibus.github.io/EorzeaClock/src/mp3/" + Tracklist[TrackNum];
-		Music.load();
-		Music.addEventListener("ended", function () {
-			Music.currentTime = 0;
-		}, false);
-	}
-	Music_init();
-
-// Mouse init
-	var Clicked = false; //Global variables
-
+  // Music init
+  var Music = new Audio(); //Global variables
+  var TrackNum = 0; //Global variables
+  var Tracklist = [
+    "crrect_answer2.mp3",
+    "crrect_answer3.mp3",
+    "FFXIV_FATE01_Complete.mp3",
+    "FFXIV_FATE01_Start.mp3",
+    "FFXIV_FATE02_Complete.mp3",
+    "FFXIV_FATE02_Start.mp3",
+    "FFXIV_Feature_Unlocked.mp3",
+    "FFXIV_Full_Party.mp3",
+    "FFXIV_Guildleve_Complete.mp3",
+    "FFXIV_Hunting_Log_Complete.mp3",
+    "FFXIV_Immortal_Flames_Promotion.mp3",
+    "FFXIV_Incoming_Tell_1.mp3",
+    "FFXIV_Incoming_Tell_2.mp3",
+    "FFXIV_Level_Up.mp3",
+    "FFXIV_Limit_Break_Activated.mp3",
+    "FFXIV_Limit_Break_Charged.mp3",
+    "FFXIV_Linkshell_Transmission.mp3",
+    "FFXIV_Log_Out.mp3",
+    "FFXIV_Maelstrom_Promotion.mp3",
+    "FFXIV_Quest_Accepted.mp3",
+    "FFXIV_Quest_Complete.mp3",
+    "FFXIV_Win_Lot.mp3",
+  ]; //Global variables
+  function Music_init() {
+    Music.preload = "auto";
+    Music.src =
+      "https://aromatibus.github.io/EorzeaClock/src/mp3/" +
+      Tracklist[TrackNum];
+    Music.load();
+    Music.addEventListener(
+      "ended",
+      function () {
+        Music.currentTime = 0;
+      },
+      false
+    );
+  }
+  Music_init();
 </script>
-<script type="text/javascript" src="https://ntp-a1.nict.go.jp/cgi-bin/jsont"></script>
-</head>
+
+<script
+  type="text/javascript"
+  src="https://ntp-a1.nict.go.jp/cgi-bin/jsont"></script>
+
+<script type="text/javascript">
+  // Set Color Code
+  function setColor(ColorType) {
+    var clock = document.getElementById("EorzeaClock");
+    switch (ColorType) {
+      case "White":
+      case 1:
+        clock.style.color = "rgba(255, 255, 255, 1)";
+        clock.style.backgroundcolor = "rgba(  0,   0,   0, 0)";
+        clock.style.textShadow =
+          "  0px   0px .3rem rgba(  0,   0,   0, 1)," +
+          " .5px  .5px  0rem rgba(  0,   0,   0, 1)," +
+          "-.5px  .5px  0rem rgba(  0,   0,   0, 1)," +
+          " .5px -.5px  0rem rgba(  0,   0,   0, 1)," +
+          "-.5px -.5px  0rem rgba(  0,   0,   0, 1)";
+        break;
+      case "NeonBlue":
+      case 2:
+        clock.style.color = "rgba(255, 255, 255, 1)";
+        clock.style.backgroundcolor = "rgba(255, 255, 255, 0)";
+        clock.style.textShadow =
+          "  0px   0px 15px  rgba(255, 255, 255, .5)," +
+          "  0px   0px .2rem rgba(255, 255, 255, .5)," +
+          "  0px   0px .3rem rgba( 70, 102, 255, 1)," +
+          "  0px   0px .4rem rgba( 70, 102, 255, 1)," +
+          "  0px   0px .5rem rgba( 70, 102, 255, 1)";
+        break;
+      case "NeonRed":
+      case 3:
+        clock.style.color = "rgba(255, 255, 255, 1)";
+        clock.style.backgroundcolor = "rgba(255, 255, 255, 0)";
+        clock.style.textShadow =
+          "  0px   0px 15px  rgba(255, 255, 255, .5)," +
+          "  0px   0px .2rem rgba(255, 255, 255, .5)," +
+          "  0px   0px .3rem rgba(229,   7,  58, 1)," +
+          "  0px   0px .4rem rgba(229,   7,  58, 1)," +
+          "  0px   0px .5rem rgba(229,   7,  58, 1)";
+        break;
+      case "Black":
+      case 4:
+        clock.style.color = "rgba(  0,   0,   0, 1)";
+        clock.style.backgroundcolor = "rgba(255, 255, 255, 0)";
+        clock.style.textShadow =
+          "  0px   0px .5rem rgba(255, 255, 255, 1)," +
+          " .6px  .6px  0rem rgba(255, 255, 255, 1)," +
+          "-.6px  .6px  0rem rgba(255, 255, 255, 1)," +
+          " .6px -.6px  0rem rgba(255, 255, 255, 1)," +
+          "-.6px -.6px  0rem rgba(255, 255, 255, 1)";
+        break;
+      default:
+        DispColor = 1;
+        DispForm += 1;
+        localStorage.setItem("DispColor", DispColor);
+        localStorage.setItem("DispForm", DispForm);
+        break;
+    }
+  }
+
+  // How to use Tooltip
+  function ShowDesc(id) {
+    if (document.getElementById) {
+      var element = document.getElementById(id);
+      element.style.visibility =
+        element.style.visibility == "visible" ? "hidden" : "visible";
+    }
+  }
+
+  // Sound Player
+  function PlaySound(Num) {
+    if (Num >= Tracklist.length) {
+      TrackNum = 0;
+    } else {
+      TrackNum = Num;
+    }
+    // console.log("TrackNo." + TrackNum + "Track Name[" + Tracklist[TrackNum] + "]");
+    Music.src =
+      "https://aromatibus.github.io/EorzeaClock/src/mp3/" +
+      Tracklist[TrackNum];
+    Music.play();
+  }
+
+  // Signed numeric & 3 digits separated string conversion
+  function SignedNumStrConv(targetNum) {
+    var numData = targetNum.toString().replace(/,/g, ""); // Remove ","
+    numData = numData.toString().split("."); // Split into integer and fractional parts
+    numData[0] = Number(numData[0])
+      .toString()
+      .replace(/\B(?=(\d{3})+(?!\d))/g, ","); // Convert integers to 3 digits "," separated
+    numData = numData.join(".").toString(); // Concatenate integer and decimal parts
+    numData = numData.toString().replace(/^[0-9]/, "+$&"); // If the first letter is a number, add "+"
+    return numData;
+  }
+
+  // TimeZone Convert to signed time notation
+  function TZNumStrConv(TZ) {
+    var strSign = "+";
+    if (TZ < 0) strSign = "-";
+    return strSign + ("0000" + Math.abs(TZ)).slice(-4);
+  }
+
+  // Eorzea Clock
+  var Clicked = false; //Global variables
+  function EorzeaClock() {
+    var clock = document.getElementById("EorzeaClock");
+
+    // Mouse Click Event
+    clock.onclick = function (evt) {
+      if (Clicked) {
+        // Double click (click flag was "Clicked" with True)
+        Clicked = false;
+        DispSizeMax = 60;
+        DispSize += 4;
+        if (DispSize == DispSizeMax) PlaySound(1); // Play sound when display size is maximized
+        if (DispSize > DispSizeMax) DispSize = 12;
+        localStorage.setItem("DispSize", DispSize);
+        return;
+      }
+      Clicked = true;
+      setTimeout(function () {
+        if (Clicked) {
+          // Single-click ("Clicked" is not reset by Double-click processing)
+          DispColor += 1;
+          localStorage.setItem("DispColor", DispColor);
+        }
+        Clicked = false;
+      }, 300); // After single click, wait for 300ms double click judgment
+    };
+
+    // Get Time
+    if (jst === undefined) {
+      jst = 0;
+      utcOffset = -9 * 60 * 60 * 1000;
+      console.log(
+        "Could not get time from JST server. The default is -9 hours (milliseconds) from JST."
+      );
+      PlaySound(16);
+    }
+    var localDate = new Date();
+    var localTime = localDate.getTime();
+    var utcTime = localTime + utcOffset;
+    var utcDate = new Date(utcTime);
+    var TZ = +0900; // +09:00 Japan(Asia/Tokyo)
+    var TZDate = new Date(utcTime + (TZ / 100) * 60 * 60 * 1000);
+
+    //console.log("Local Time       :" + SignedNumStrConv(localTime));
+    //console.log("UTC Time         :" + SignedNumStrConv(utcTime));
+    //console.log("Date.now()       :" + SignedNumStrConv(Date.now()));
+    //console.log("utcOffset        :" + SignedNumStrConv(utcOffset));
+    //console.log("Local Date       :" + localDate.toLocaleString());
+    //console.log("Jp Std Date (JST):" + jst.toLocaleString());
+    //console.log("UTC+TZ(" + TZNumStrConv(TZ) + ")    :" + TZDate.toLocaleString());
+    //console.log("World Date (UTC) :" + utcDate.toLocaleString());
+
+    // Set Week
+    var Weekdays = new Array("Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat");
+
+    // Get Local time
+    var localYear = localDate.getFullYear();
+    var localMonth = (" " + (localDate.getMonth() + 1)).slice(-2);
+    var localDay = (" " + localDate.getDate()).slice(-2);
+    var localWeek = Weekdays[localDate.getDay()];
+    var localHours = (" " + localDate.getHours()).slice(-2);
+    var localMinute = ("0" + localDate.getMinutes()).slice(-2);
+    var localSeconds = ("0" + localDate.getSeconds()).slice(-2);
+    var localMilliSeconds = ("00" + localDate.getMilliseconds()).slice(-3);
+
+    // Get UTC time
+    var utcYear = utcDate.getFullYear();
+    var utcMonth = (" " + (utcDate.getMonth() + 1)).slice(-2);
+    var utcDay = (" " + utcDate.getDate()).slice(-2);
+    var utcWeek = Weekdays[utcDate.getDay()];
+    var utcHours = (" " + utcDate.getHours()).slice(-2);
+    var utcMinute = ("0" + utcDate.getMinutes()).slice(-2);
+    var utcSeconds = ("0" + utcDate.getSeconds()).slice(-2);
+    var utcMilliSeconds = ("00" + utcDate.getMilliseconds()).slice(-3);
+
+    // Get Eorzea time
+    // Eorzea's day is 70 minutes Earth time. Earth 1day = (60min * 24hour) = 1440min : Eorzea 1day = Earth Time 70min
+    var eorzeaDate = Math.floor(localTime * (1440 / 70));
+    var eorzeaHours = (
+      " " + Math.floor((eorzeaDate / (1000 * 60 * 60)) % 24)
+    ).slice(-2);
+    var eorzeaMinute = (
+      "0" + Math.floor((eorzeaDate / (1000 * 60)) % 60)
+    ).slice(-2);
+    var eorzeaSeconds = (
+      "0" + Math.floor((eorzeaDate / 1000) % 60)
+    ).slice(-2);
+
+    // Display Format
+    //console.log("Flag S" + DispSize + " : F" + DispForm + " : C" + DispColor);
+    clock.style.fontSize = DispSize + "px";
+    setColor(DispColor);
+    switch (DispForm) {
+      case 1:
+        clock.innerHTML =
+          "LT " +
+          localHours +
+          ":" +
+          localMinute +
+          ":" +
+          localSeconds +
+          " / ET " +
+          eorzeaHours +
+          ":" +
+          eorzeaMinute +
+          ":" +
+          eorzeaSeconds;
+        break;
+      case 2:
+        clock.innerHTML =
+          "ST " +
+          utcHours +
+          ":" +
+          utcMinute +
+          ":" +
+          utcSeconds +
+          " / ET " +
+          eorzeaHours +
+          ":" +
+          eorzeaMinute +
+          ":" +
+          eorzeaSeconds;
+        break;
+      case 3:
+        clock.innerHTML =
+          "LT " +
+          localHours +
+          ":" +
+          localMinute +
+          ":" +
+          localSeconds +
+          " / ST " +
+          utcHours +
+          ":" +
+          utcMinute +
+          ":" +
+          utcSeconds +
+          " / ET " +
+          eorzeaHours +
+          ":" +
+          eorzeaMinute +
+          ":" +
+          eorzeaSeconds;
+        break;
+      case 4:
+        clock.innerHTML =
+          "LT " +
+          localYear +
+          "/" +
+          localMonth +
+          "/" +
+          localDay +
+          " (" +
+          localWeek +
+          ") " +
+          localHours +
+          ":" +
+          localMinute +
+          ":" +
+          localSeconds +
+          " / ET " +
+          eorzeaHours +
+          ":" +
+          eorzeaMinute +
+          ":" +
+          eorzeaSeconds;
+        break;
+      default:
+        DispForm = 1;
+        localStorage.setItem("DispForm", DispForm);
+        break;
+    }
+  }
+
+  // Start
+  function start() {
+    setInterval("EorzeaClock();", 90);
+    setTimeout("location.reload(false)", 3 * 60 * 60 * 1000); // Reload every 3 hours
+    EorzeaClock();
+  }
+</script>
 
 <body onload="start();">
-<script type="text/javascript">
-
-// Set Color Code
-	function setColor(ColorType){
-		var clock = document.getElementById("EorzeaClock");
-		switch (ColorType) {
-			case "White":
-			case 1:
-				clock.style.color          	= "rgba(255, 255, 255, 1)";
-				clock.style.backgroundcolor	= "rgba(  0,   0,   0, 0)";
-				clock.style.textShadow 		= "  0px   0px .3rem rgba(  0,   0,   0, 1)," +
-											  " .5px  .5px  0rem rgba(  0,   0,   0, 1)," +
-											  "-.5px  .5px  0rem rgba(  0,   0,   0, 1)," +
-											  " .5px -.5px  0rem rgba(  0,   0,   0, 1)," +
-											  "-.5px -.5px  0rem rgba(  0,   0,   0, 1)";
-				break;
-			case "NeonBlue":
-			case 2:
-				clock.style.color          	= "rgba(255, 255, 255, 1)";
-				clock.style.backgroundcolor	= "rgba(255, 255, 255, 0)";
-				clock.style.textShadow		= "  0px   0px 15px  rgba(255, 255, 255, .5)," +
-											  "  0px   0px .2rem rgba(255, 255, 255, .5)," +
-											  "  0px   0px .3rem rgba( 70, 102, 255, 1)," +
-											  "  0px   0px .4rem rgba( 70, 102, 255, 1)," +
-											  "  0px   0px .5rem rgba( 70, 102, 255, 1)";
-				break;
-			case "NeonRed":
-			case 3:
-				clock.style.color          	= "rgba(255, 255, 255, 1)";
-				clock.style.backgroundcolor	= "rgba(255, 255, 255, 0)";
-				clock.style.textShadow		= "  0px   0px 15px  rgba(255, 255, 255, .5)," +
-											  "  0px   0px .2rem rgba(255, 255, 255, .5)," +
-											  "  0px   0px .3rem rgba(229,   7,  58, 1)," +
-											  "  0px   0px .4rem rgba(229,   7,  58, 1)," +
-											  "  0px   0px .5rem rgba(229,   7,  58, 1)";
-				break;
-			case "Black":
-			case 4:
-				clock.style.color          	= "rgba(  0,   0,   0, 1)";
-				clock.style.backgroundcolor	= "rgba(255, 255, 255, 0)";
-				clock.style.textShadow		= "  0px   0px .5rem rgba(255, 255, 255, 1)," +
-											  " .6px  .6px  0rem rgba(255, 255, 255, 1)," +
-											  "-.6px  .6px  0rem rgba(255, 255, 255, 1)," +
-											  " .6px -.6px  0rem rgba(255, 255, 255, 1)," +
-											  "-.6px -.6px  0rem rgba(255, 255, 255, 1)";
-				break;
-			default:
-				DispColor = 1;
-				DispForm += 1;
-				localStorage.setItem("DispColor", DispColor);
-				localStorage.setItem("DispForm", DispForm);
-				break;
-		}
-	}
-
-// Sound Player
-	function PlaySound(Num) {
-		if(Num >= Tracklist.length) {
-			TrackNum = 0;
-		} else {
-			TrackNum = Num;
-		}
-//		console.log("TrackNo." + TrackNum + "Track Name[" + Tracklist[TrackNum] + "]");
-		Music.src = "https://aromatibus.github.io/EorzeaClock/src/mp3/" + Tracklist[TrackNum];
-		Music.play();
-	}
-
-// Signed numeric & 3 digits separated string conversion
-		function SignedNumStrConv(targetNum) {
-			var numData = targetNum.toString().replace(/,/g, "");								// Remove ","
-			numData = numData.toString().split('.');											// Split into integer and fractional parts
-			numData[0] = Number(numData[0]).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');	// Convert integers to 3 digits "," separated
-			numData = numData.join('.').toString();												// Concatenate integer and decimal parts
-			numData = numData.toString().replace(/^[0-9]/, "+$&");								// If the first letter is a number, add "+"
-			return (numData);
-		}
-
-// TimeZone Convert to signed time notation
-		function TZNumStrConv(TZ) {
-			var strSign = "+";
-			if(TZ < 0) strSign = "-";
-			return(strSign + ("0000" + Math.abs(TZ)).slice(-4));
-		}
-
-// Eorzea Clock
-	function EorzeaClock() {
-		var clock = document.getElementById("EorzeaClock");
-
-// Mouse Click Event
-		clock.onclick = function (evt) {
-			if (Clicked) { // Double click (click flag was "Clicked" with True)
-					Clicked = false;
-					DispSizeMax = 60;
-					DispSize += 4;
-					if(DispSize == DispSizeMax) PlaySound(1); // Play sound when display size is maximized
-					if(DispSize > DispSizeMax) DispSize = 12;
-					localStorage.setItem("DispSize", DispSize);
-					return;
-			}
-			Clicked = true;
-			setTimeout(function () {
-				if (Clicked) { // Single-click ("Clicked" is not reset by Double-click processing)
-					DispColor += 1;
-					localStorage.setItem("DispColor", DispColor);
-				}
-				Clicked = false;
-			}, 300); // After single click, wait for 300ms double click judgment
-		}
-
-// Get Time
-		if(jst === undefined) {
-			jst = 0;
-			utcOffset = (-9 * 60 * 60 * 1000);
-			console.log("Could not get time from JST server. The default is -9 hours (milliseconds) from JST.");
-			PlaySound(16);
-		}
-		var localDate = new Date();
-		var localTime = localDate.getTime();
-		var utcTime   = localTime + utcOffset;
-		var utcDate   = new Date(utcTime);
-		var TZ        = +0900; // +09:00 Japan(Asia/Tokyo)
-		var TZDate    = new Date(utcTime + (TZ / 100 * 60 * 60 * 1000));
-
-//		console.log("Local Time       :" + SignedNumStrConv(localTime));
-//		console.log("UTC Time         :" + SignedNumStrConv(utcTime));
-//		console.log("Date.now()       :" + SignedNumStrConv(Date.now()));
-//		console.log("utcOffset        :" + SignedNumStrConv(utcOffset));
-//		console.log("Local Date       :" + localDate.toLocaleString());
-//		console.log("Jp Std Date (JST):" + jst.toLocaleString());
-//		console.log("UTC+TZ(" + TZNumStrConv(TZ) + ")    :" + TZDate.toLocaleString());
-//		console.log("World Date (UTC) :" + utcDate.toLocaleString());
-
-// Set Week
-		var Weekdays = new Array("Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat");
-
-// Get Local time
-		var localYear     = localDate.getFullYear();
-		var localMonth    = (" " + (localDate.getMonth() + 1)).slice(-2);
-		var localDay      = (" " + localDate.getDate()).slice(-2);
-		var localWeek     = Weekdays[localDate.getDay()];
-		var localHours    = (" " + localDate.getHours()).slice(-2);
-		var localMinute   = ("0" + localDate.getMinutes()).slice(-2);
-		var localSeconds  = ("0" + localDate.getSeconds()).slice(-2);
-		var localMilliSeconds  = ("00" + localDate.getMilliseconds()).slice(-3);
-
-// Get UTC time
-		var utcYear       = utcDate.getFullYear();
-		var utcMonth      = (" " + (utcDate.getMonth() + 1)).slice(-2);
-		var utcDay        = (" " + utcDate.getDate()).slice(-2);
-		var utcWeek       = Weekdays[utcDate.getDay()];
-		var utcHours      = (" " + utcDate.getHours()).slice(-2);
-		var utcMinute     = ("0" + utcDate.getMinutes()).slice(-2);
-		var utcSeconds    = ("0" + utcDate.getSeconds()).slice(-2);
-		var utcMilliSeconds  = ("00" + utcDate.getMilliseconds()).slice(-3);
-
-// Get Eorzea time
-// Eorzea's day is 70 minutes Earth time. Earth 1day = (60min * 24hour) = 1440min : Eorzea 1day = Earth Time 70min
-		var eorzeaDate    = Math.floor(localTime * (1440 / 70));
-		var eorzeaHours   = (" " + Math.floor(eorzeaDate / (1000 * 60 * 60) % 24)).slice(-2);
-		var eorzeaMinute  = ("0" + Math.floor(eorzeaDate / (1000 * 60) % 60)).slice(-2);
-		var eorzeaSeconds = ("0" + Math.floor(eorzeaDate / 1000 % 60)).slice(-2);
-
-// Display Format
-//		console.log("Flag S" + DispSize + " : F" + DispForm + " : C" + DispColor);
-		clock.style.fontSize = DispSize + "px";
-		setColor(DispColor);
-		switch (DispForm) {
-			case 1:
-				clock.innerHTML = "LT " + localHours + ":" + localMinute + ":" + localSeconds + " / ET " + eorzeaHours + ":" + eorzeaMinute + ":" + eorzeaSeconds;
-				break;
-			case 2:
-				clock.innerHTML = "ST " + utcHours + ":" + utcMinute + ":" + utcSeconds + " / ET " + eorzeaHours + ":" + eorzeaMinute + ":" + eorzeaSeconds;
-				break;
-			case 3:
-				clock.innerHTML = "LT " + localHours + ":" + localMinute + ":" + localSeconds + " / ST " + utcHours + ":" + utcMinute + ":" + utcSeconds + " / ET " + eorzeaHours + ":" + eorzeaMinute + ":" + eorzeaSeconds;
-				break;
-			case 4:
-				clock.innerHTML = "LT " + localYear + "/" + localMonth + "/" + localDay + " (" + localWeek + ") " + localHours + ":" + localMinute + ":" + localSeconds + " / ET " + eorzeaHours + ":" + eorzeaMinute + ":" + eorzeaSeconds;
-				break;
-			default:
-				DispForm = 1;
-				localStorage.setItem("DispForm", DispForm);
-				break;
-		}
-	}
-
-// Start
-	function start() {
-		setInterval("EorzeaClock();", 60);
-		setTimeout("location.reload(false)", (3 * 60 * 60 * 1000)); // Reload every 3 hours
-		EorzeaClock();
-	}
-</script>
-	<div id="EorzeaClock"></div>
+  <span
+    onmouseover="ShowDesc('HowToUse');"
+    onmouseout="ShowDesc('HowToUse');">
+    <div id="EorzeaClock"></div>
+    <span id="HowToUse" class="HowToUseForm">
+      <p>
+          使い方<br />
+          時計の上でマウスを左クリックすると表示形式が変わります。<br />
+          ダブルクリックするとサイズが変わります。<br />
+          最大まで大きくなると音が鳴ります。<br />
+          続けてクリックすると最小になります。
+        </p>
+      <p>
+          How to use <br />
+          Left-click on the clock to change the display format. <br />
+          Double-click to resize. <br />
+          You will hear a sound when you reach the maximum. <br />
+          Continue to minimize clicks.
+        </p>
+    </span>
+  </span>
 </body>
 </html>
