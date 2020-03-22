@@ -8,6 +8,15 @@ And thanks to those who develop ACT, plugins and other tools.
 エオルゼアの秒数まで表示する時計です。
 A clock that displays up to Eorzea seconds.
 
+---
+[Onlinegaming.life](https://onlinegaming.life/) 様で紹介されていました。  
+とっても詳しく使い方を紹介してくださっています。
+ありがとうございます。&#x1f60a;
+
+[ACTでEorzeaClockを導入する方法](https://onlinegaming.life/ff14/eorzeaclock/)　(JP) How to introduce EorzeaClock in ACT.
+
+---
+
 これは、Advanced Combat Tracker用オーバーレイです。
 画面にローカル時間とエオルゼア時間を表示します。
 ngld/OverlayPlugin https://github.com/ngld/OverlayPlugin で動作を確認しました。
