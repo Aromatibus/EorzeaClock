@@ -50,7 +50,3 @@ JST (Japan Standard Time) is obtained from the NICT server and UTC (Coordinated 
 NICT SERVER Guidelines >> http://http://www.nict.go.jp/JST/http.html
 
 ローカル時間、エオルゼア時間はPCの時間を基準にしています。
-
-2020/03/22  
-正確な世界のローカル時間の計算やその他、途中までいろいろと実装しましたが必要なことではないと思い一旦、開発終了といたします。  
-We performed a variety of other calculations, such as accurate calculations of local time around the world, but stopped thinking we didn't think it was necessary.
