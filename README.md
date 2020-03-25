@@ -2,8 +2,7 @@
 
 ## 素晴らしい冒険の世界を与えてくれたSquare Enixに感謝します。</BR>そしてACTやプラグイン、その他のツールを開発されている方達に感謝いたします。
 
-## Thanks to Square Enix for giving us a wonderful adventure world.</BR>And thanks to those who develop ACT, plugins and other tools.
-
+## Thanks to Square Enix for giving us a wonderful world of adventure.</BR>And thanks to the people who develop ACT, plugins and other tools.
 ---
 [Onlinegaming.life](https://onlinegaming.life/) 様で紹介されていました。  
 とっても詳しく使い方を紹介してくださっています。ありがとうございます。&#x1f60a;
@@ -21,13 +20,13 @@
 PCに詳しい方は "*`index.html`*" をPCに保存して改造できます。  
 楽しんでいただければ幸いです。
 
-A clock that displays up to Eorzea seconds.  
-This is an overlay for Advanced Combat Tracker.  
-Displays the local time, server time and Eorzea time on the screen.  
-[ngld/OverlayPlugin](https://github.com/ngld/OverlayPlugin) has confirmed the operation.
-Please add with "*`MiniParseOverlay`*".  
+It is a clock that displays even the seconds of Eorzea.  
+This is an overlay for the Advanced Combat Tracker.  
+Local time, server time, and Eorzea time are displayed on the screen.  
+I checked the behavior with [ngld/OverlayPlugin](https://github.com/ngld/OverlayPlugin).
+"*`MiniParseOverlay`*" to add it.  
 The URL to be displayed is "**`https://aromatibus.github.io/EorzeaClock/`**".  
-If you are familiar with PC, you can save "*`index.html`*" on PC and modify it.  
+If you are familiar with PC, you can save "*`index.html`*" to your PC and modify it.  
 I hope you enjoy it.
 
 ![表示例1 (LTET-White)](https://user-images.githubusercontent.com/54123288/74087730-75503600-4ad2-11ea-9f67-bc2332726bd2.png)
@@ -46,11 +45,11 @@ I hope you enjoy it.
 ローカル時間、エオルゼア時間はPCの時間を基準にしています。  
 サーバー時間はNICTのサーバーからJST（日本標準時）を取得し、UTC（協定世界時）を計算しています。
 
-Click the displayed clock to change the display format.  
-Double click to enlarge. It reaches a minimum when it reaches a certain level.
+Click on the displayed clock to change the display format.  
+Double click to enlarge. When it grows to a certain size, it becomes the minimum.  
 
 Local time and Eorzea time are based on PC time.  
-Server time is obtained from the JST (Japan Standard Time) NICT server and UTC (Coordinated Universal Time) is calculated.
+The server time is obtained from the NICT server in JST (Japan Standard Time) and calculated in UTC (Coordinated Universal Time).
 
 [NICT クライアント開発者向け情報（NICT SERVER Guidelines）](http://www.nict.go.jp/JST/http.html)
 
