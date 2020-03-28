@@ -6,7 +6,7 @@
   <title>Eorzea Clock Advanced Combat Tracker Overlay</title>
   <meta
     name="description"
-    content="Final Fantasy XIV (FF14) ファイナル・ファンタジー１４ エオルゼア・クロック 
+    content="Final Fantasy XIV (FF14) Eorzea Clock ファイナル・ファンタジー１４ エオルゼア・クロック
     This is an overlay for the Advanced Combat Tracker that displays the local time and Eorzea time including seconds." />
   <link
     href="https://fonts.googleapis.com/css?family=Heebo:700&display=swap"
@@ -14,10 +14,7 @@
 </head>
 <style type="text/css">
   #EorzeaClock {
-    min-width: 500px;
-    max-width: 500px;
-    min-height: 12px;
-    max-height: 80px;
+    max-width: 500%;
     overflow: visible;
     font-family: "Heebo", "arial black", sans-serif;
     color: rgba(0, 0, 0, 1);
@@ -217,8 +214,7 @@
   function SignedNumStrConv(targetNum) {
     var numData = targetNum.toString().replace(/,/g, ""); // Remove ","
     numData = numData.toString().split("."); // Split into integer and fractional parts
-    numData[0] = Number(numData[0])
-      .toString()
+    numData[0] = Number(numData[0]).toString()
       .replace(/\B(?=(\d{3})+(?!\d))/g, ","); // Convert integers to 3 digits "," separated
     numData = numData.join(".").toString(); // Concatenate integer and decimal parts
     numData = numData.toString().replace(/^[0-9]/, "+$&"); // If the first letter is a number, add "+"
